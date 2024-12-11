@@ -16,10 +16,17 @@ return new class extends Migration {
             $table->string('referral')->nullable(); // Referral Code (Optional)
             $table->timestamps(); // Created and Updated timestamps
         });
+
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
     }
 
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
     }
 };

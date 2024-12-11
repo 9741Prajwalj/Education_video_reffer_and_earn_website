@@ -88,5 +88,16 @@
             </button>
         </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = document.querySelector('.bg-green-100');
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.opacity = '0';
+                    setTimeout(() => successMessage.remove(), 500); // Remove after fade-out
+                }, 3000); // 3 seconds
+            }
+        });
+    </script>
 </body>
 </html>
