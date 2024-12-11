@@ -72,7 +72,7 @@
             </div>
 
             <!-- Referral -->
-            <div class="mb-4">
+            <!-- <div class="mb-4">
                 <label for="referral" class="block text-gray-700 font-medium">Referral Code (Optional)</label>
                 <input type="text" name="referral" id="referral" 
                        class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" 
@@ -80,7 +80,7 @@
                 @error('referral')
                     <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
-            </div>
+            </div> -->
 
             <button type="submit" 
                     class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">

@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->string('email')->unique(); // Email
             $table->string('phone_number')->unique(); // Phone Number
             $table->string('password'); // Password
-            $table->string('referral')->nullable(); // Referral Code (Optional)
+            $table->integer('referral_count')->default(0); // Referral Count
             $table->timestamps(); // Created and Updated timestamps
         });
 

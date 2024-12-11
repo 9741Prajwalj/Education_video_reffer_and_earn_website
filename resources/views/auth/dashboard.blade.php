@@ -33,7 +33,7 @@
                     </label>
                     <input type="file" id="upload-photo" class="hidden">
                 </div>
-                <h2 class="mt-3 text-xl font-semibold text-gray-700">{{ $user->name }}</h2>
+                <h2 class="mt-3 text-xl font-semibold text-gray-700">{{ auth()->user()->username }}</h2>
             </div>
 
             <!-- Points Section -->
@@ -46,27 +46,36 @@
 
             <!-- Update Information Form -->
             <div class="bg-gray-200 p-4 rounded-lg">
-                <h3 class="text-xl font-semibold text-gray-700 mb-4 text-center">Update Information</h3>
-                <form class="space-y-4">
-                    <!-- Username -->
+                <h3 class="text-xl font-semibold text-gray-700 mb-4 text-center">Update Referral Information</h3>
+                @if(session('success'))
+                    <div class="mb-4 p-2 bg-green-200 text-green-800 rounded">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                <form method="POST" action="{{ route('update.referral') }}" class="space-y-4">
+                    @csrf
+                    <!-- Referral Name -->
                     <div>
-                        <label for="username" class="block text-gray-600 font-medium">Username</label>
-                        <input type="text" id="username" 
+                        <label for="referral_name" class="block text-gray-600 font-medium">Referral Name</label>
+                        <input type="text" id="referral_name" name="referral_name" 
                                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" 
-                               value="{{ $user->name }}" placeholder="Enter your username">
+                               placeholder="Enter referral name" value="{{ old('referral_name') }}" required>
                     </div>
 
-                    <!-- Phone Number -->
+                    <!-- Referral Phone Number -->
                     <div>
-                        <label for="phone" class="block text-gray-600 font-medium">Phone Number</label>
-                        <input type="tel" id="phone" 
+                        <label for="referral_phone" class="block text-gray-600 font-medium">Referral Phone Number</label>
+                        <input type="tel" id="referral_phone" name="referral_phone" 
                                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" 
-                               value="{{ $user->phone_number }}" placeholder="Enter your phone number">
+                               placeholder="Enter referral phone number" value="{{ old('referral_phone') }}" required>
                     </div>
+
+                    <!-- Hidden User ID -->
+                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
 
                     <!-- Submit Button -->
                     <div class="text-center">
-                        <button type="button" 
+                        <button type="submit" 
                                 class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
                             Submit
                         </button>
@@ -74,7 +83,6 @@
                 </form>
             </div>
         </div>
-
         <!-- Advertisement Section -->
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <!-- Advertisement Cards -->
