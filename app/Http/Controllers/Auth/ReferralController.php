@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\ReferralList;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class ReferralController extends Controller
 {
@@ -44,8 +44,13 @@ class ReferralController extends Controller
         ['referral_phone' => $request->referral_phone]
     );
 
+    // Increment the referral count for the user
+    $user = User::find($request->user_id);
+    if ($user) {
+        $user->increment('referral_count');
+    }
     // Find the user and decrement points
-    $user = FacadesAuth::find($request->user_id);
+    $user = User::find($request->user_id);
     if ($user) {
         // Assuming 'points' is a field in the 'users' table
         $user->decrement('points', 1); // Decrements points by 1; adjust as needed

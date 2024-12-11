@@ -8,7 +8,7 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
     <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">Login</h2>
+        <h2 class="text-2xl font-bold text-gray-800 text-center mb-6">User Login</h2>
          <!-- Success Message -->
          @if(session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">

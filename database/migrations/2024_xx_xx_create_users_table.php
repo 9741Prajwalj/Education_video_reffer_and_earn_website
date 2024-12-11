@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->string('phone_number')->unique(); // Phone Number
             $table->string('password'); // Password
             $table->integer('referral_count')->default(0); // Referral Count
+            $table->integer('points')->default(5); // Points
             $table->timestamps(); // Created and Updated timestamps
         });
 

@@ -68,4 +68,10 @@ class DashboardController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Referral submitted and points updated.');
     }
+    // public function showDashboard()
+    // {
+    //     $points = auth()->user()->points; // Retrieve the user's points from the database
+    //     return view('dashboard', compact('points'));
+    // }
+
 }
