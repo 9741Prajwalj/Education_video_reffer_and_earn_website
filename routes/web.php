@@ -57,3 +57,9 @@ Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('adm
 
 // Admin Dashboard
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->middleware('auth')->name('admin.dashboard');
+
+// Route for viewing the referrals of a specific user
+Route::get('/admin/dashboard/referrals/{userId}', [AdminDashboardController::class, 'showReferrals'])->middleware('auth')->name('admin.referrals');
+
+// Define the route for updating points
+Route::post('/admin/dashboard/update-points/{userId}', [AdminDashboardController::class, 'updatePoints'])->name('admin.dashboard.updatePoints');

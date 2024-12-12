@@ -26,21 +26,12 @@ class AdminLoginController extends Controller
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             return redirect()->route('admin.dashboard'); // Redirect to the dashboard
         }        
-        // if (Admin::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-        //     return redirect()->route('admin.dashboard'); // Redirect to the dashboard
-        // }
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
 
-    // Logout the admin user
-    // public function logout()
-    // {
-    //     Admin::logout();
-    //     return redirect()->route('admin.login');
-    // }
     public function logout()
     {
         Auth::guard('admin')->logout();

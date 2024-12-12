@@ -29,7 +29,6 @@
                     <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
             </div>
-            
             <!-- Email -->
             <div class="mb-4">
                 <label for="email" class="block text-gray-700 font-medium">Email</label>

@@ -25,7 +25,6 @@ class AdminMiddleware
         if (!Auth::user()->is_admin) { // Assuming 'is_admin' is a field in your 'users' table
             return redirect('/')->with('error', 'Unauthorized access.');
         }
-
         return $next($request);
     }
 }
