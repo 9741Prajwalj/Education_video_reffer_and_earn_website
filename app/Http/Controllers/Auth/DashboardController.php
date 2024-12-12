@@ -23,10 +23,16 @@ class DashboardController extends Controller
         $user = Auth::user();
         $points = $user->points ?? 5; // Default points value if not set
 
-        // Return the 'dashboard' view with user data and points
+        // Retrieve the referral list for the current user
+        $referralList = DB::table('referral_list')
+            ->where('user_id', $user->id)
+            ->get(['referral_name', 'referral_phone']); // Adjust column names if needed
+
+        // Return the 'dashboard' view with user data, points, and referral list
         return view('auth.dashboard', [
-            'username' => $user,
+            'username' => $user->username,
             'points' => $points,
+            'referralList' => $referralList,
         ]);
     }
 
@@ -51,9 +57,7 @@ class DashboardController extends Controller
         /** @var \App\Models\User $user */
         if ($user->points > 0) {
             $user->decrement('points', 1); // Decrease points by 1
-        } else {
-            return redirect()->route('dashboard')->with('error', 'Not enough points to submit referral.');
-        }
+        } 
 
     // Save referral details to 'referral_list' table
     DB::table('referral_list')->insert([

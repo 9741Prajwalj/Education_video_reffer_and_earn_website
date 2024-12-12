@@ -9,6 +9,11 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ReferralController;
 use Illuminate\Support\Facades\Auth;
 
+//For Admin
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -36,3 +41,19 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/login');
 })->name('logout');
+
+
+
+//For Admin
+
+// Admin Registration
+Route::get('/admin/register', [AdminController::class, 'create'])->name('admin.register');
+Route::post('/admin/register', [AdminController::class, 'store'])->name('admin.store');
+
+// Admin Login
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login');
+Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
+
+// Admin Dashboard
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->middleware('auth')->name('admin.dashboard');
