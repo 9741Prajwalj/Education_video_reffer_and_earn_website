@@ -14,10 +14,10 @@
     <div class="w-1/4 bg-white shadow-lg p-4 flex flex-col items-center">
         <!-- Admin Image -->
         <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-500 bg-gray-100">
-            <img src="{{ asset('image/user_logo.png') }}" alt="Admin Image" class="w-full h-full object-cover">
+            <img src="{{ asset('image/admin_logo.png') }}" alt="Admin Image" class="w-full h-full object-cover">
         </div>
         <!-- Upload Button -->
-        <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Upload Image</button>
+        <!-- <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Upload Image</button> -->
 
         <!-- Admin Details -->
         <div class="mt-4 text-center">

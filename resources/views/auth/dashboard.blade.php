@@ -25,7 +25,10 @@
         <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Profile Section -->
             <div class="flex flex-col items-center bg-gray-200 p-4 rounded-lg">
-                <div class="relative">
+            <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-500 bg-gray-100">
+                <img src="{{ asset('image/user_logo.png') }}" alt="Admin Image" class="w-full h-full object-cover">
+            </div>
+                <!-- <div class="relative">
                     <img src="https://via.placeholder.com/100" 
                          alt="Profile Picture" 
                          class="w-24 h-24 rounded-full object-cover border-2 border-blue-500">
@@ -33,7 +36,7 @@
                         Upload
                     </label>
                     <input type="file" id="upload-photo" class="hidden">
-                </div>
+                </div> -->
                 <h2 class="mt-3 text-xl font-semibold text-gray-700">{{ auth()->user()->username }}</h2>
                 <h2 class="mt-3 text-xl font-semibold text-gray-700">{{ auth()->user()->email }}</h2>
             </div>
@@ -145,6 +148,27 @@
                 <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-32 object-cover">
                 <div class="p-4">
                     <h4 class="text-lg font-semibold text-gray-800">Advertisement 3</h4>
+                    <p class="text-sm text-gray-600">Yet another ad description.</p>
+                </div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-32 object-cover">
+                <div class="p-4">
+                    <h4 class="text-lg font-semibold text-gray-800">Advertisement 4</h4>
+                    <p class="text-sm text-gray-600">Yet another ad description.</p>
+                </div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-32 object-cover">
+                <div class="p-4">
+                    <h4 class="text-lg font-semibold text-gray-800">Advertisement 5</h4>
+                    <p class="text-sm text-gray-600">Yet another ad description.</p>
+                </div>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-32 object-cover">
+                <div class="p-4">
+                    <h4 class="text-lg font-semibold text-gray-800">Advertisement 6</h4>
                     <p class="text-sm text-gray-600">Yet another ad description.</p>
                 </div>
             </div>
