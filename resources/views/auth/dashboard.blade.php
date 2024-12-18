@@ -35,6 +35,7 @@
                     <input type="file" id="upload-photo" class="hidden">
                 </div>
                 <h2 class="mt-3 text-xl font-semibold text-gray-700">{{ auth()->user()->username }}</h2>
+                <h2 class="mt-3 text-xl font-semibold text-gray-700">{{ auth()->user()->email }}</h2>
             </div>
 
             <!-- Points Section -->

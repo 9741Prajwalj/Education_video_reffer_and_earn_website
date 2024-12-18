@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->string('phone_number')->unique(); // Phone Number
             $table->string('password'); // Password
             $table->integer('referral_count')->default(0); // Referral Count
-            $table->integer('points')->default(5); // Points
+            $table->integer('points')->default(5)->after('referral_count'); // Points
             $table->timestamps(); // Created and Updated timestamps
         });
 
@@ -29,5 +29,8 @@ return new class extends Migration {
     {
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('points');
+        });
     }
 };

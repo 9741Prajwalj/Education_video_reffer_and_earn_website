@@ -33,17 +33,44 @@ class AdminDashboardController extends Controller
     // Method in AdminDashboardController.php to handle points update
     public function updatePoints(Request $request, $userId)
     {
-        $validated = $request->validate([
-            'points' => 'required|integer|min:0',
-        ]);
-        $user = User::find($userId);
-        if (!$user) {
-            return response()->json(['success' => false, 'message' => 'User not found']);
-        }
-        // Update the user's points
-        $user->points = $request->input('points');
-        $user->save();  // Save the updated user
+        try {
+            // Validate input
+            $request->validate([
+                'points' => 'required|integer|min:0',
+            ]);
 
-        return response()->json(['success' => true, 'message' => 'Points updated successfully']);
+            // Find user
+            $user = User::find($userId);
+
+            if (!$user) {
+                return response()->json(['success' => false, 'message' => 'User not found'], 404);
+            }
+
+            // Update points
+            $user->points = $request->input('points');
+            $user->save();
+
+            // JSON response for AJAX
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Points updated successfully.',
+                ]);
+            }
+
+            // Redirect back to dashboard for regular requests
+            return redirect()->route('admin.dashboard')->with('success', 'Points updated successfully.');
+        } catch (\Exception $e) {
+            // JSON response for AJAX
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error: ' . $e->getMessage(),
+                ], 500);
+            }
+
+            // Redirect back to dashboard with error message for regular requests
+            return redirect()->route('admin.dashboard')->with('error', 'Error: ' . $e->getMessage());
+        }
     }
 }

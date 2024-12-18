@@ -62,4 +62,4 @@ Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->midd
 Route::get('/admin/dashboard/referrals/{userId}', [AdminDashboardController::class, 'showReferrals'])->middleware('auth')->name('admin.referrals');
 
 // Define the route for updating points
-Route::post('/admin/dashboard/update-points/{userId}', [AdminDashboardController::class, 'updatePoints'])->name('admin.dashboard.updatePoints');
+Route::post('/admin/dashboard/update-points/{userId}', [AdminDashboardController::class, 'updatePoints'])->middleware('auth:admin')->name('admin.dashboard.updatePoints');
