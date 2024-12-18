@@ -37,10 +37,7 @@ Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkE
 Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-})->name('logout');
+Route::post('/logout', function () {Auth::logout();return redirect('/login');})->name('logout');
 
 
 
@@ -59,7 +56,21 @@ Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('adm
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->middleware('auth')->name('admin.dashboard');
 
 // Route for viewing the referrals of a specific user
-Route::get('/admin/dashboard/referrals/{userId}', [AdminDashboardController::class, 'showReferrals'])->middleware('auth')->name('admin.referrals');
+Route::get('/admin/referrals', [AdminDashboardController::class, 'getAllReferrals'])->middleware('auth')->name('admin.referrals');
 
 // Define the route for updating points
 Route::post('/admin/dashboard/update-points/{userId}', [AdminDashboardController::class, 'updatePoints'])->middleware('auth:admin')->name('admin.dashboard.updatePoints');
+
+// Route for viewing the referrals of a specific user
+Route::get('/admin/referrals/{userId}', [AdminDashboardController::class, 'showReferrals'])->middleware('auth:admin')->name('admin.referrals');
+
+
+
+
+
+
+
+
+
+
+

@@ -1,43 +1,41 @@
 
     // Function to show the selected table (user or referral)
     function showTable(tableType) {
-      // Hide both tables by default
-      document.getElementById('userTable').style.display = 'none';
-      document.getElementById('referralTable').style.display = 'none';
-      // Show the selected table
-      if (tableType === 'user') {
-          document.getElementById('userTable').style.display = 'block';
-      } else if (tableType === 'referral') {
-          document.getElementById('referralTable').style.display = 'block';       
-          // Fetch referrals for the specific user if provided
-          if (userId) {
-              fetchReferrals(userId);
-          }
-      }
-  }
-  // Function to fetch referrals via an AJAX request
-  function fetchReferrals(userId) {
-      // Make an AJAX request to fetch the referrals
-      fetch(`/admin/referrals/${userId}`)
-          .then(response => response.json())
-          .then(data => {
-              let referralTableBody = document.getElementById('referralTableBody');
-              referralTableBody.innerHTML = ''; // Clear existing table rows
-              // Append new referral data to the table
-              data.forEach(referral => {
-                  let row = document.createElement('tr');
-                  row.classList.add('border-t');
-                  row.innerHTML = `
-                      <td class="py-2 px-4">${referral.id}</td>
-                      <td class="py-2 px-4">${referral.referral_name}</td>
-                      <td class="py-2 px-4">${referral.referral_phone}</td>
-                      <td class="py-2 px-4">${referral.user_id}</td>
-                  `;
-                  referralTableBody.appendChild(row);
-              });
-          })
-          .catch(error => console.error('Error fetching referrals:', error));
-      }
+        // Hide both tables by default
+        document.getElementById('userTable').style.display = 'none';
+        document.getElementById('referralTable').style.display = 'none';
+
+        if (tableType === 'user') {
+            document.getElementById('userTable').style.display = 'block';
+        } else if (tableType === 'referral') {
+            document.getElementById('referralTable').style.display = 'block';
+            fetchAllReferrals(); // Fetch all referrals
+        }
+    }
+
+    // Fetch all referrals without filtering by user ID
+    function fetchAllReferrals() {
+        fetch(`/admin/referrals`)
+            .then(response => response.json())
+            .then(data => {
+                let referralTableBody = document.getElementById('referralTableBody');
+                referralTableBody.innerHTML = ''; // Clear existing rows
+                // Populate referral data into the table
+                data.forEach(referral => {
+                    let row = document.createElement('tr');
+                    row.classList.add('border-t');
+                    row.innerHTML = `
+                        <td class="py-2 px-4">${referral.id}</td>
+                        <td class="py-2 px-4">${referral.referral_name}</td>
+                        <td class="py-2 px-4">${referral.referral_phone}</td>
+                        <td class="py-2 px-4">${referral.user_id}</td>
+                    `;
+                    referralTableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error fetching referrals:', error));
+    }
+
       // Function to open the edit modal and populate the input field with current points
       function openEditModal(userId, currentPoints) {
           document.getElementById('pointsInput').value = currentPoints;
@@ -119,3 +117,58 @@ function openEditModal(userId, currentPoints) {
     document.getElementById('editPointsModal').style.display = 'flex';
 } 
 
+function showReferralList(userId) {
+    // Send AJAX request to fetch referrals for the user
+    fetch(`/admin/referrals/${userId}`, {
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Populate the referral table
+        const referralTableBody = document.getElementById('referralTableBody');
+        referralTableBody.innerHTML = ''; // Clear the existing rows
+
+        data.forEach(referral => {
+            const row = `
+                <tr class="border-t">
+                    <td class="py-2 px-4">${referral.id}</td>
+                    <td class="py-2 px-4">${referral.referral_name}</td>
+                    <td class="py-2 px-4">${referral.referral_phone}</td>
+                    <td class="py-2 px-4">${referral.user_id}</td>
+                </tr>`;
+            referralTableBody.innerHTML += row;
+        });
+
+        // Show the referral table and hide the user table
+        document.getElementById('userTable').style.display = 'none';
+        document.getElementById('referralTable').style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error fetching referrals:', error);
+    });
+}
+
+function showUserTable() {
+    document.getElementById('referralTable').style.display = 'none';
+    document.getElementById('userTable').style.display = 'block';
+}
+
+// Function to filter the user list based on search input
+function filterUsers() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const userRows = document.querySelectorAll('#userTable tbody tr');
+
+    userRows.forEach(row => {
+        const username = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+        const email = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+        const phone = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+
+        if (username.includes(searchInput) || email.includes(searchInput) || phone.includes(searchInput)) {
+            row.style.display = '';  // Show the row
+        } else {
+            row.style.display = 'none';  // Hide the row
+        }
+    });
+}

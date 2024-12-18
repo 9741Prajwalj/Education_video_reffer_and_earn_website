@@ -23,13 +23,6 @@ class AdminDashboardController extends Controller
       return view('admin.dashboard', compact('admin','users','referrals')); // Pass admin details to the view
     }
 
-    // Show referrals for a specific user
-    public function showReferrals($userId)
-    {
-        $referrals = ReferralList::where('user_id', $userId)->get(); // Fetch referrals for the user
-        return response()->json($referrals); // Return the referrals as JSON
-    }
-
     // Method in AdminDashboardController.php to handle points update
     public function updatePoints(Request $request, $userId)
     {
@@ -73,4 +66,18 @@ class AdminDashboardController extends Controller
             return redirect()->route('admin.dashboard')->with('error', 'Error: ' . $e->getMessage());
         }
     }
+
+    public function getAllReferrals()
+    {
+        $referrals = ReferralList::all(); // Fetch all referrals
+        return response()->json($referrals); // Return all referrals as JSON
+    }
+
+    // Show referrals for a specific user
+    public function showReferrals($userId)
+    {
+        $referrals = ReferralList::where('user_id', $userId)->get(); // Filter referrals by user ID
+        return response()->json($referrals); // Return filtered referrals as JSON
+    }
+
 }

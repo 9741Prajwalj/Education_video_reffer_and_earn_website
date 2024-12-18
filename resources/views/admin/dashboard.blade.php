@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Dashboard</title>
+    <!-- Add Font Awesome CDN for the search icon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 h-screen flex">
@@ -39,11 +41,18 @@
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="flex-1 p-8">
+   <!-- Main Content -->
+    <div class="flex-1 p-10">
         <!-- User List Table -->
         <div id="userTable" class="w-full bg-white shadow-lg rounded-lg">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">User List</h1>
+            <div class="flex items-center justify-between mb-4 pt-4 pl-4">
+                <h1 class="text-3xl font-bold text-gray-800">User List</h1>
+                <!-- Search Box with Icon -->
+                <div class="relative w-1/3">
+                    <input type="text" id="searchInput" oninput="filterUsers()" class="px-4 py-2 border border-gray-300 rounded w-50 pl-10" placeholder="Search users...">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
             <table class="w-full">
                 <thead>
                     <tr class="bg-gray-200">
@@ -66,12 +75,11 @@
                         <td class="py-2 px-4">{{ $user->phone_number }}</td>
                         <td class="py-2 px-4">{{ $user->referral_count }}</td>
                         <td class="py-2 px-4">
-                            <button onclick="showTable('referral', '{{ $user->id }}')" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700">
+                            <button onclick="showReferralList('{{ $user->id }}')" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700">
                                 View
                             </button>
                         </td>
                         <td class="py-2 px-4 points-cell">{{ $user->points }}</td>
-                        <!-- User Table -->
                         <td class="py-2 px-4">
                             <button onclick="openEditModal('{{ $user->id }}', '{{ $user->points }}')" class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-700">
                                 Edit
@@ -84,7 +92,13 @@
         </div>
         <!-- Referral List Table -->
         <div id="referralTable" class="w-full bg-white shadow-lg rounded-lg" style="display: none;">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">Referral List</h1>
+            <div class="flex items-center justify-between mb-4 pt-4 pl-4">
+                <h1 class="text-3xl font-bold text-gray-800">Referral List</h1>
+                <button onclick="showUserTable()" class="px-4 py-2 mr-6 bg-gray-500 text-white rounded hover:bg-gray-600">
+                    Back to User List
+                </button>
+            </div>
+
             <table class="w-full">
                 <thead>
                     <tr class="bg-gray-200">
@@ -107,6 +121,7 @@
             </table>
         </div>
     </div>
+
     <!-- Edit Modal (Hidden by default) -->
     <div id="editPointsModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center" style="display: none;">
         <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
