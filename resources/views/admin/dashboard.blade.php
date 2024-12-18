@@ -11,7 +11,7 @@
     <!-- In your Blade file, at the bottom before closing </body> -->
     <script src="{{ asset('js/admin.js') }}"></script>
     <!-- Sidebar Navigation -->
-    <div class="w-1/4 bg-white shadow-lg p-4 flex flex-col items-center">
+    <div class="w-1/5 bg-white shadow-lg p-4 flex flex-col items-center">
         <!-- Admin Image -->
         <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-500 bg-gray-100">
             <img src="{{ asset('image/admin_logo.png') }}" alt="Admin Image" class="w-full h-full object-cover">
@@ -30,12 +30,13 @@
             <button onclick="showTable('user')" class="w-full px-4 py-2 mb-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">User List</button>
             <button onclick="showTable('referral')" class="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Referral List</button>
         </div>
-
-        <!-- Logout Button -->
-        <form action="{{ route('admin.logout') }}" method="POST" class="mt-auto w-full">
-            @csrf
-            <button type="submit" class="w-full px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700">Logout</button>
-        </form>
+        <div class="justify-center" >
+            <!-- Logout Button -->
+            <form action="{{ route('admin.logout') }}" method="POST" class="mt-2 w-full h-74">
+                @csrf
+                <button type="submit" class="w-20 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700">Logout</button>
+            </form>
+        </div>
     </div>
 
     <!-- Main Content -->
