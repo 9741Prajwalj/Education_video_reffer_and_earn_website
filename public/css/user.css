@@ -1,0 +1,24 @@
+/* This is for Sliding the text in user Dashboard Header */
+.sliding-text {
+  display: inline-block;
+  white-space: nowrap;
+  animation: slideContinuous 15s linear infinite;
+}
+@keyframes slideContinuous {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.slide {
+  overflow: hidden;
+  height: 2em; /* Adjusted for a better height for readability */
+  position: relative;
+}
+.sliding-text-container {
+  position: absolute;
+  white-space: nowrap;
+  display: inline-block;
+}

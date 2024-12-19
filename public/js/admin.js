@@ -155,25 +155,7 @@ function showUserTable() {
     document.getElementById('userTable').style.display = 'block';
 }
 
-// Function to filter the user list based on search input
-function filterUsers() {
-    const searchInput = document.getElementById('searchInput').value.toLowerCase();
-    const userRows = document.querySelectorAll('#userTable tbody tr');
-
-    userRows.forEach(row => {
-        const username = row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
-        const email = row.querySelector('td:nth-child(3)').textContent.trim().toLowerCase();
-        const phone = row.querySelector('td:nth-child(4)').textContent.trim().toLowerCase();
-
-        // Check if the searchInput is the start of any field (case-insensitive)
-        if (username.startsWith(searchInput) || email.startsWith(searchInput) || phone.startsWith(searchInput)) {
-            row.style.display = '';  // Show the row
-        } else {
-            row.style.display = 'none';  // Hide the row
-        }
-    });
-}
-
+//For Adding the user Form
 function showAddUserForm() {
     document.getElementById('userTable').style.display = 'none';
     document.getElementById('referralTable').style.display = 'none';
@@ -267,5 +249,28 @@ function deleteUser(userId) {
             console.error('Error:', error);
             alert('There was an error deleting the user');
         });
+    }
+}
+
+// General function to filter any table
+function filterTable(searchInputId, tableBodyId) {
+    const searchInput = document.getElementById(searchInputId).value.trim().toLowerCase();
+    const rows = document.querySelectorAll(`#${tableBodyId} tr`);
+    let anyMatch = false;
+
+    rows.forEach(row => {
+        const cells = Array.from(row.querySelectorAll('td')).map(td => td.textContent.trim().toLowerCase());
+        if (cells.some(cell => cell.includes(searchInput))) {
+            row.style.display = ''; // Show matching row
+            anyMatch = true;
+        } else {
+            row.style.display = 'none'; // Hide non-matching row
+        }
+    });
+
+    // Handle "No Results Found" message
+    const noResultsMessage = document.getElementById('noResultsMessage');
+    if (noResultsMessage) {
+        noResultsMessage.style.display = anyMatch ? 'none' : 'block';
     }
 }

@@ -44,9 +44,8 @@
         <div id="userTable" class="w-full bg-white shadow-lg rounded-lg">
             <div class="flex items-center justify-between mb-4 pt-4 pl-4">
                 <h1 class="text-3xl font-bold text-gray-800">User List</h1>
-                <!-- Search Box with Icon -->
                 <div class="relative w-1/3">
-                    <input type="text" id="searchInput" oninput="filterUsers()" class="px-4 py-2 border border-gray-300 rounded w-50 pl-10" placeholder="Search users...">
+                    <input type="text" id="userSearchInput" oninput="filterTable('userSearchInput', 'userTableBody')" class="px-4 py-2 border border-gray-300 rounded w-50 pl-10" placeholder="Search users..." />
                     <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                 </div>
             </div>
@@ -96,9 +95,20 @@
         <div id="referralTable" class="w-full bg-white shadow-lg rounded-lg" style="display: none;">
             <div class="flex items-center justify-between mb-4 pt-4 pl-4">
                 <h1 class="text-3xl font-bold text-gray-800">Referral List</h1>
-                <button onclick="showUserTable()" class="px-4 py-2 mr-6 bg-gray-500 text-white rounded hover:bg-gray-600">
-                    Back to User List
-                </button>
+                <div class="flex items-center justify-between space-x-4 mr-4">
+                    <div class="relative flex-grow max-w-md">
+                        <!-- Search Input -->
+                        <input type="text" id="referralSearchInput" oninput="filterTable('referralSearchInput', 'referralTableBody')" 
+                            class="px-4 py-2 border border-gray-300 rounded w-full pl-10"
+                            placeholder="Search referral..."/>
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <!-- Back to User Button -->
+                    <button onclick="showUserTable()" 
+                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 ">
+                        Back to User
+                    </button>
+                </div>
             </div>
             <table class="w-full">
                 <thead>
@@ -109,7 +119,7 @@
                         <th class="text-left py-2 px-4">User ID</th>
                     </tr>
                 </thead>
-                <tbody id="referralTableBody" style="max-height: 300px; overflow-y: auto;">
+                <tbody id="referralTableBody">
                     @foreach($referrals as $referral)
                     <tr class="border-t">
                         <td class="py-2 px-4">{{ $referral->id }}</td>
@@ -129,23 +139,23 @@
                     @csrf
                     <div class="mb-4">
                         <label for="username" class="block text-gray-700 font-bold mb-2">Username</label>
-                        <input type="text" id="username" name="username" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                        <input type="text" id="username" name="username" placeholder="Jone" class="w-full px-4 py-2 border border-gray-300 rounded" required>
                     </div>
                     <div class="mb-4">
                         <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
-                        <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                        <input type="email" id="email" name="email" placeholder="jone@gmail.com" class="w-full px-4 py-2 border border-gray-300 rounded" required>
                     </div>
                     <div class="mb-4">
                         <label for="phone" class="block text-gray-700 font-bold mb-2">Phone</label>
-                        <input type="text" id="phone" name="phone_number" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                        <input type="text" id="phone" name="phone_number" placeholder="9999988888" class="w-full px-4 py-2 border border-gray-300 rounded" required>
                     </div>
                     <div class="mb-4">
                         <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
-                        <input type="text" id="password" name="password" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                        <input type="text" id="password" name="password" placeholder="min 8 character" class="w-full px-4 py-2 border border-gray-300 rounded" required>
                     </div>
                     <div class="mb-4">
                         <label for="points" class="block text-gray-700 font-bold mb-2">Points</label>
-                        <input type="number" id="points" name="points" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                        <input type="number" id="points" name="points" placeholder="0" class="w-full px-4 py-2 border border-gray-300 rounded" required>
                     </div>
                     <div class="flex justify-end">
                         <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add</button>

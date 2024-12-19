@@ -1,12 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\DashboardController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\Auth\ReferralController;
+use App\Http\Controllers\User\RegisterController;
+use App\Http\Controllers\User\LoginController;
+use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\ForgotPasswordController;
+use App\Http\Controllers\User\ResetPasswordController;
+use App\Http\Controllers\User\ReferralController;
 use Illuminate\Support\Facades\Auth;
 
 //For Admin
@@ -39,6 +39,7 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 
 Route::post('/logout', function () {Auth::logout();return redirect('/login');})->name('logout');
 
+Route::post('/password/change', [DashboardController::class, 'changePassword'])->name('password.change');
 
 
 //For Admin
