@@ -18,19 +18,16 @@
         <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-500 bg-gray-100">
             <img src="{{ asset('image/admin_logo.png') }}" alt="Admin Image" class="w-full h-full object-cover">
         </div>
-        <!-- Upload Button -->
-        <!-- <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Upload Image</button> -->
-
         <!-- Admin Details -->
         <div class="mt-4 text-center">
             <p class="text-lg font-bold">{{ $admin->name }}</p>
             <p class="text-gray-600">{{ $admin->email }}</p>
         </div>
-
         <!-- Navigation Buttons -->
         <div class="mt-6 w-full">
-            <button onclick="showTable('user')" class="w-full px-4 py-2 mb-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">User List</button>
-            <button onclick="showTable('referral')" class="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">Referral List</button>
+            <button onclick="showAddUserForm()" class="w-full px-4 py-2 mb-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"><i class="fas fa-user-plus mr-2"></i> Add User</button>
+            <button onclick="showTable('user')" class="w-full px-4 py-2 mb-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"><i class="fas fa-users mr-2"></i> User List</button>
+            <button onclick="showTable('referral')" class="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"><i class="fas fa-share-alt mr-2"></i> Referral List</button>
         </div>
         <div class="justify-center" >
             <!-- Logout Button -->
@@ -66,7 +63,7 @@
                         <th class="text-left py-2 px-4">Edit (Points)</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="userTableBody" style="max-height: 300px; overflow-y: auto;">
                     @foreach($users as $user)
                     <tr class="border-t" data-user-id="{{ $user->id }}">
                         <td class="py-2 px-4">{{ $user->id }}</td>
@@ -76,13 +73,18 @@
                         <td class="py-2 px-4">{{ $user->referral_count }}</td>
                         <td class="py-2 px-4">
                             <button onclick="showReferralList('{{ $user->id }}')" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-700">
-                                View
+                                <i class="fas fa-eye mr-2"></i> View
                             </button>
                         </td>
                         <td class="py-2 px-4 points-cell">{{ $user->points }}</td>
                         <td class="py-2 px-4">
                             <button onclick="openEditModal('{{ $user->id }}', '{{ $user->points }}')" class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-700">
-                                Edit
+                                <i class="fas fa-edit mr-2"></i> Edit
+                            </button>
+                        </td>
+                        <td class="py-2 px-4">
+                            <button onclick="deleteUser('{{ $user->id }}')" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700">
+                                <i class="fas fa-trash-alt mr-2"></i> Delete
                             </button>
                         </td>
                     </tr>
@@ -98,7 +100,6 @@
                     Back to User List
                 </button>
             </div>
-
             <table class="w-full">
                 <thead>
                     <tr class="bg-gray-200">
@@ -108,7 +109,7 @@
                         <th class="text-left py-2 px-4">User ID</th>
                     </tr>
                 </thead>
-                <tbody id="referralTableBody">
+                <tbody id="referralTableBody" style="max-height: 300px; overflow-y: auto;">
                     @foreach($referrals as $referral)
                     <tr class="border-t">
                         <td class="py-2 px-4">{{ $referral->id }}</td>
@@ -120,8 +121,39 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
+        <!-- Add User Form -->
+        <div id="addUserForm" class="fixed inset-0 flex justify-center items-center w-full h-full bg-gray-800 bg-opacity-50" style="display: none;">
+            <div class="w-full md:w-1/3 lg:w-1/4 bg-white shadow-lg rounded-lg p-6">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Add New User</h1>
+                <form id="addUserFormElement" method="POST" action="{{ route('admin.add-user') }}">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="username" class="block text-gray-700 font-bold mb-2">Username</label>
+                        <input type="text" id="username" name="username" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
+                        <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="phone" class="block text-gray-700 font-bold mb-2">Phone</label>
+                        <input type="text" id="phone" name="phone_number" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
+                        <input type="text" id="password" name="password" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="points" class="block text-gray-700 font-bold mb-2">Points</label>
+                        <input type="number" id="points" name="points" class="w-full px-4 py-2 border border-gray-300 rounded" required>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add</button>
+                        <button type="button" onclick="closeAddUserForm()" class="ml-2 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     <!-- Edit Modal (Hidden by default) -->
     <div id="editPointsModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center" style="display: none;">
         <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">

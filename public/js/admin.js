@@ -161,14 +161,111 @@ function filterUsers() {
     const userRows = document.querySelectorAll('#userTable tbody tr');
 
     userRows.forEach(row => {
-        const username = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-        const email = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-        const phone = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+        const username = row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
+        const email = row.querySelector('td:nth-child(3)').textContent.trim().toLowerCase();
+        const phone = row.querySelector('td:nth-child(4)').textContent.trim().toLowerCase();
 
-        if (username.includes(searchInput) || email.includes(searchInput) || phone.includes(searchInput)) {
+        // Check if the searchInput is the start of any field (case-insensitive)
+        if (username.startsWith(searchInput) || email.startsWith(searchInput) || phone.startsWith(searchInput)) {
             row.style.display = '';  // Show the row
         } else {
             row.style.display = 'none';  // Hide the row
         }
     });
+}
+
+function showAddUserForm() {
+    document.getElementById('userTable').style.display = 'none';
+    document.getElementById('referralTable').style.display = 'none';
+    document.getElementById('addUserForm').style.display = 'flex';
+}
+
+function closeAddUserForm() {
+    document.getElementById('addUserForm').style.display = 'none';
+    document.getElementById('userTable').style.display = 'block';
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const addUserForm = document.getElementById("addUserFormElement");
+
+    addUserForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        // Collect form data
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const points = document.getElementById('points').value.trim();
+        const csrfToken = document.querySelector('input[name="_token"]').value;
+
+        // Gather form data
+        const formData = new FormData(addUserForm);
+        const data = Object.fromEntries(formData.entries());
+
+        // Validate input
+        if (!username || !email || !phone || !password || !points) {
+            alert('Please fill out all fields.');
+            return;
+        }
+
+        try {
+            // Send data to backend using fetch
+            const response = await fetch('/admin/dashboard/add-user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,  // Make sure this is the correct token
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    phone_number: phone,
+                    password,
+                    points
+                }),
+            });
+
+            // Handle response
+            const data = await response.json();
+            if (response.ok) {
+                alert('User added successfully!');
+                addUserForm.reset(); // Reset form after success
+            } else {
+                alert('Error adding user: ' + (data.message || 'Unknown error'));
+            }
+
+        } catch (error) {
+            console.error("Error:", error);
+            alert('Error: ' + error.message);
+        }
+
+        console.log({ username, email, phone_number: phone, password, points }); // Log form data
+    });
+});
+
+function deleteUser(userId) {
+    if (confirm('Are you sure you want to delete this user?')) {
+        fetch(`/admin/dashboard/delete-user/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('User deleted successfully');
+                document.querySelector(`[data-user-id="${userId}"]`).remove(); // Remove the row from the table
+            } else {
+                alert('Error deleting user');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('There was an error deleting the user');
+        });
+    }
 }

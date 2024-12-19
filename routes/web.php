@@ -64,6 +64,11 @@ Route::post('/admin/dashboard/update-points/{userId}', [AdminDashboardController
 // Route for viewing the referrals of a specific user
 Route::get('/admin/referrals/{userId}', [AdminDashboardController::class, 'showReferrals'])->middleware('auth:admin')->name('admin.referrals');
 
+// Route for Adding the User in Admin Dashboard
+Route::post('/admin/dashboard/add-user', [AdminDashboardController::class, 'addUser'])->middleware('auth:admin')->name('admin.add-user');
+
+// Route to delete a user
+Route::delete('/admin/dashboard/delete-user/{id}', [AdminDashboardController::class, 'deleteUser'])->middleware('auth:admin')->name('admin.delete-user');
 
 
 
