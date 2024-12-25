@@ -1,10 +1,10 @@
 <?php
 
-// app/Http/Controllers/AdminController.php
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Admin;
+use App\Models\ReferralList;
 use App\Models\User;
 use Illuminate\Container\Attributes\Log;
 use Illuminate\Http\Request;
@@ -34,5 +34,18 @@ class AdminController extends Controller
         ]);
 
         return redirect()->route('admin.login')->with('success', 'Registration successful!');
+    }
+    public function updateStatus(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|exists:referral_list,id',
+            'sent' => 'required|in:sent,not sent'
+        ]);
+
+        $referral = ReferralList::findOrFail($validated['id']);
+        $referral->sent = $validated['sent'];
+        $referral->save();
+
+        return response()->json(['success' => true, 'message' => 'Status updated successfully!']);
     }
 }

@@ -71,11 +71,10 @@ Route::post('/admin/dashboard/add-user', [AdminDashboardController::class, 'addU
 // Route to delete a user
 Route::delete('/admin/dashboard/delete-user/{id}', [AdminDashboardController::class, 'deleteUser'])->middleware('auth:admin')->name('admin.delete-user');
 
-
-
-
-
-
+Route::prefix('admin')->group(function () {
+    Route::get('/referrals', [ReferralController::class, 'getReferrals']); // Fetch all referrals
+    Route::post('/referrals/update-status', [ReferralController::class, 'updateStatus']); // Update status
+});
 
 
 

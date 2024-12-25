@@ -1,0 +1,11 @@
+button {
+  display: inline-block !important;
+  visibility: visible !important;
+}
+
+.bg-gray-500 {
+  background-color: #6b7280; /* Gray color */
+}
+.cursor-not-allowed {
+  cursor: not-allowed;
+}

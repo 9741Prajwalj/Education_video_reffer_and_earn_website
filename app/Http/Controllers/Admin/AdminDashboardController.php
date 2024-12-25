@@ -135,4 +135,6 @@ class AdminDashboardController extends Controller
             return response()->json(['success' => false, 'message' => 'User not found or deletion failed'], 500);
         }
     }
+
+
 }

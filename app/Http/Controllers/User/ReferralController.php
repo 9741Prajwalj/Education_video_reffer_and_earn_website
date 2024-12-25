@@ -58,4 +58,24 @@ class ReferralController extends Controller
     return redirect()->route('dashboard')->with('success', 'Referral information updated successfully.');
 }
 
+    // for updating the sent/not sent button to database table
+    public function updateStatus(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|exists:referral_list,id',
+            'status' => 'required|in:sent,not sent',
+        ]);
+
+        $referral = ReferralList::findOrFail($validated['id']);
+        $referral->status = $validated['status'];
+        $referral->save();
+
+        return response()->json(['success' => true, 'message' => 'Status updated successfully']);
+    }
+
+    public function getReferrals()
+    {
+        $referrals = ReferralList::all();
+        return response()->json($referrals);
+    }
 }

@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ReferralList extends Model
 {
+    use HasFactory;
     // Define the table associated with the model
     protected $table = 'referral_list';
 
     // Define the fields that are mass assignable
-    protected $fillable = ['referral_name', 'referral_phone', 'user_id'];
+    protected $fillable = ['referral_name', 'referral_phone', 'user_id','state'];
 
     // Define the relationship with the User model
     public function user()

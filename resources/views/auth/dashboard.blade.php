@@ -14,7 +14,7 @@
         <h1 class="text-2xl font-bold">Dashboard</h1>
         <!-- Sliding Text Section -->
         <div class="slide w-1/1 overflow-hidden relative">
-            <div class="sliding-text">
+            <div class="sliding-text text-xl">
                 😊Welcome to the Dashboard! Manage your data and settings seamlessly.😁 &nbsp;|&nbsp;
                 Stay productive and organized with our tools.🧑‍🏫 &nbsp;|&nbsp;
                 Have a great day!🤗

@@ -7,6 +7,7 @@
     <title>Admin Dashboard</title>
     <!-- Add Font Awesome CDN for the search icon -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}"></head>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 h-screen flex">
@@ -91,8 +92,8 @@
                 </tbody>
             </table>
         </div>
-        <!-- Referral List Table -->
-        <div id="referralTable" class="w-full bg-white shadow-lg rounded-lg" style="display: none;">
+       <!-- Referral List Table -->
+        <div id="referralTable" class="w-full bg-white shadow-lg rounded-lg overflow-hidden" style="display: none;">
             <div class="flex items-center justify-between mb-4 pt-4 pl-4">
                 <h1 class="text-3xl font-bold text-gray-800">Referral List</h1>
                 <div class="flex items-center justify-between space-x-4 mr-4">
@@ -105,27 +106,40 @@
                     </div>
                     <!-- Back to User Button -->
                     <button onclick="showUserTable()" 
-                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 ">
+                            class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
                         Back to User
                     </button>
                 </div>
             </div>
-            <table class="w-full">
+            <!-- Referral List Table -->
+            <table class="w-full table-auto border-collapse">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="text-left py-2 px-4">ID</th>
-                        <th class="text-left py-2 px-4">Referral Name</th>
-                        <th class="text-left py-2 px-4">Referral Phone</th>
-                        <th class="text-left py-2 px-4">User ID</th>
+                        <th class="text-left py-2 px-4 border-b">ID</th>
+                        <th class="text-left py-2 px-4 border-b">Referral Name</th>
+                        <th class="text-left py-2 px-4 border-b">Referral Phone</th>
+                        <th class="text-left py-2 px-4 border-b">User ID</th>
+                        <th class="text-left py-2 px-4 border-b">Coupon</th> <!-- Sent column updated -->
                     </tr>
                 </thead>
                 <tbody id="referralTableBody">
                     @foreach($referrals as $referral)
                     <tr class="border-t">
-                        <td class="py-2 px-4">{{ $referral->id }}</td>
-                        <td class="py-2 px-4">{{ $referral->referral_name }}</td>
-                        <td class="py-2 px-4">{{ $referral->referral_phone }}</td>
-                        <td class="py-2 px-4">{{ $referral->user_id }}</td>
+                        <td class="py-3 px-4">{{ $referral->id }}</td>
+                        <td class="py-3 px-4">{{ $referral->referral_name }}</td>
+                        <td class="py-3 px-4">{{ $referral->referral_phone }}</td>
+                        <td class="py-3 px-4">{{ $referral->user_id }}</td>
+                        <td class="py-3 px-4">
+                            <!-- Sent/Not Sent Buttons -->
+                            <button onclick="updateReferralStatus('{{ $referral->id }}', 'sent')" 
+                                    class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">
+                                Sent
+                            </button>
+                            <button onclick="updateReferralStatus('{{ $referral->id }}', 'not sent')" 
+                                    class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                                Not Sent
+                            </button>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
