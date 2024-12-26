@@ -156,12 +156,13 @@
                 @if($referralList->isEmpty())
                     <p class="text-gray-500 text-center">No referrals yet.</p>
                 @else
-                    <div class="overflow-y-auto max-h-48"> <!-- Set max height and enable scrolling -->
+                    <div id="referral-list-container" class="overflow-y-auto max-h-48"> <!-- Set max height and enable scrolling -->
                         <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
                             <thead>
                                 <tr class="bg-gray-100">
                                     <th class="px-4 py-2 text-left text-gray-700">Referred Name</th>
                                     <th class="px-4 py-2 text-left text-gray-700">Referred Phone</th>
+                                    <th class="px-4 py-2 text-left text-gray-700">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -169,6 +170,13 @@
                                     <tr class="border-b">
                                         <td class="px-4 py-2">{{ $referral->referral_name }}</td>
                                         <td class="px-4 py-2">{{ $referral->referral_phone }}</td>
+                                        <td class="px-4 py-2">
+                                            @if($referral->referral_name || $referral->referral_phone || $referral->status == 'sent')
+                                                <i class="fas fa-check text-green-500"></i> <!-- Tick mark icon -->
+                                            @else
+                                                <i class="fas fa-clock text-yellow-500"></i> <!-- Waiting icon -->
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -39,7 +39,11 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 
 Route::post('/logout', function () {Auth::logout();return redirect('/login');})->name('logout');
 
+// For Changing Password in User page
 Route::post('/password/change', [DashboardController::class, 'changePassword'])->name('password.change');
+
+// Define a route for showing the referral list
+Route::get('/referrals', [ReferralController::class, 'getReferralList'])->name('referral.list');
 
 
 //For Admin
@@ -71,11 +75,11 @@ Route::post('/admin/dashboard/add-user', [AdminDashboardController::class, 'addU
 // Route to delete a user
 Route::delete('/admin/dashboard/delete-user/{id}', [AdminDashboardController::class, 'deleteUser'])->middleware('auth:admin')->name('admin.delete-user');
 
+// Route to update the sent/not sent for database
 Route::prefix('admin')->group(function () {
     Route::get('/referrals', [ReferralController::class, 'getReferrals']); // Fetch all referrals
     Route::post('/referrals/update-status', [ReferralController::class, 'updateStatus']); // Update status
 });
-
 
 
 
