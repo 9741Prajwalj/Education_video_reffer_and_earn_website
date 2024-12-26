@@ -245,6 +245,27 @@ function deleteUser(userId) {
     }
 }
 
+// General function to filter any table
+function filterTable(searchInputId, tableBodyId) {
+    const searchInput = document.getElementById(searchInputId).value.trim().toLowerCase();
+    const rows = document.querySelectorAll(`#${tableBodyId} tr`);
+    let anyMatch = false;
+    rows.forEach(row => {
+        const cells = Array.from(row.querySelectorAll('td')).map(td => td.textContent.trim().toLowerCase());
+        if (cells.some(cell => cell.includes(searchInput))) {
+            row.style.display = ''; // Show matching row
+            anyMatch = true;
+        } else {
+            row.style.display = 'none'; // Hide non-matching row
+        }
+    });
+    // Handle "No Results Found" message
+    const noResultsMessage = document.getElementById('noResultsMessage');
+    if (noResultsMessage) {
+        noResultsMessage.style.display = anyMatch ? 'none' : 'block';
+    }
+}
+
 //For sent and not sent updates to the database from Referal list
 function updateReferralStatus(referralId, status) {
     
