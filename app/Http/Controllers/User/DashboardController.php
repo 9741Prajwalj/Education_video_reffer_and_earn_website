@@ -96,4 +96,28 @@ class DashboardController extends Controller
             return back()->with('error', 'An error occurred while updating the password. Please try again.');
         }
     }
+
+     // Get notifications for the logged-in user
+      // Get notifications for the logged-in user
+    // public function getNotifications()
+    // {
+    //     $notifications = Auth::user()->notifications; // Retrieve notifications for the logged-in user
+    //     return response()->json($notifications, 200);
+    // }
+    // public function showNotifications()
+    // {
+    //     if (Auth::check()) {
+    //         $user = Auth::user(); // Get the authenticated user
+    //         $notifications = $user->notifications; // Fetch notifications
+
+    //         // Check if the notifications are fetched
+    //         dd($notifications);
+
+    //         // Return notifications as JSON or to view
+    //         return view('auth.dashboard', compact('notifications'));
+    //     } else {
+    //         return redirect()->route('login'); // Redirect to login page if user is not authenticated
+    //     }
+    // }
+     
 }

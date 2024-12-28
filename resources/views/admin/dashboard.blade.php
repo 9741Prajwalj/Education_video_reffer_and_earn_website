@@ -29,6 +29,10 @@
             <button onclick="showAddUserForm()" class="w-full px-4 py-2 mb-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"><i class="fas fa-user-plus mr-2"></i> Add User</button>
             <button onclick="showTable('user')" class="w-full px-4 py-2 mb-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"><i class="fas fa-users mr-2"></i> User List</button>
             <button onclick="showTable('referral')" class="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"><i class="fas fa-share-alt mr-2"></i> Referral List</button>
+             <!-- Add Notification Button -->
+            <button onclick="showNotificationModal()" class="w-full px-4 py-2 mt-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                <i class="fas fa-bell mr-2"></i> Send Notification
+            </button>
         </div>
         <div class="justify-center" >
             <!-- Logout Button -->
@@ -119,7 +123,6 @@
                         <th class="text-left py-2 px-4 border-b">Referral Name</th>
                         <th class="text-left py-2 px-4 border-b">Referral Phone</th>
                         <th class="text-left py-2 px-4 border-b">User ID</th>
-                        <th class="text-left py-2 px-4 border-b">Coupon</th> <!-- Sent column updated -->
                     </tr>
                 </thead>
                 <tbody id="referralTableBody">
@@ -129,17 +132,6 @@
                         <td class="py-3 px-4">{{ $referral->referral_name }}</td>
                         <td class="py-3 px-4">{{ $referral->referral_phone }}</td>
                         <td class="py-3 px-4">{{ $referral->user_id }}</td>
-                        <td class="py-3 px-4">
-                            <!-- Sent/Not Sent Buttons -->
-                            <button onclick="updateReferralStatus('{{ $referral->id }}', 'sent')" 
-                                    class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">
-                                Sent
-                            </button>
-                            <button onclick="updateReferralStatus('{{ $referral->id }}', 'not sent')" 
-                                    class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
-                                Not Sent
-                            </button>
-                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -178,6 +170,54 @@
                 </form>
             </div>
         </div>
+        <!-- Notification Modal -->
+        <div id="notificationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
+            <div class="bg-white rounded-lg p-6 w-96">
+                <h2 class="text-xl font-bold mb-4">Send Notification</h2>
+
+                <form id="notificationForm" method="POST" action="{{ route('admin.sendNotification') }}" enctype="multipart/form-data">
+                    @csrf
+                    <!-- Notification Title -->
+                    <div class="mb-4">
+                        <label for="title" class="block text-sm font-medium text-gray-700">Notification Title</label>
+                        <input type="text" name="title" id="title" class="w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                    </div>
+
+                    <!-- Notification Message -->
+                    <div class="mb-4">
+                        <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                        <textarea name="message" id="message" class="w-full px-3 py-2 border border-gray-300 rounded-md" rows="4" required></textarea>
+                    </div>
+
+                    <!-- Notification Image (Optional) -->
+                    <div class="mb-4">
+                        <label for="image" class="block text-sm font-medium text-gray-700">Notification Image (Optional)</label>
+                        <input type="file" name="image" id="image" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+
+                    <!-- User Selector (Optional, default to all users) -->
+                    <div class="mb-4">
+                        <label for="user_id" class="block text-sm font-medium text-gray-700">Select User (Optional)</label>
+                        <select name="user_id" id="user_id" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                            <option value="">All Users</option>
+                            @foreach($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->username }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Send Button -->
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Send Notification</button>
+                    </div>
+                </form>
+
+                <button onclick="closeNotificationModal()" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
     <!-- Edit Modal (Hidden by default) -->
     <div id="editPointsModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center" style="display: none;">
         <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">

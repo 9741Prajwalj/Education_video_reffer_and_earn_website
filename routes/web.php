@@ -1,5 +1,6 @@
 <?php
 
+// For User 🤖
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\RegisterController;
 use App\Http\Controllers\User\LoginController;
@@ -9,7 +10,7 @@ use App\Http\Controllers\User\ResetPasswordController;
 use App\Http\Controllers\User\ReferralController;
 use Illuminate\Support\Facades\Auth;
 
-//For Admin
+//For Admin 🧑‍🏫
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -18,6 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// For User 🤖
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
@@ -46,7 +48,7 @@ Route::post('/password/change', [DashboardController::class, 'changePassword'])-
 Route::get('/referrals', [ReferralController::class, 'getReferralList'])->name('referral.list');
 
 
-//For Admin
+//For Admin 🧑‍🏫
 
 // Admin Registration
 Route::get('/admin/register', [AdminController::class, 'create'])->name('admin.register');
@@ -75,11 +77,20 @@ Route::post('/admin/dashboard/add-user', [AdminDashboardController::class, 'addU
 // Route to delete a user
 Route::delete('/admin/dashboard/delete-user/{id}', [AdminDashboardController::class, 'deleteUser'])->middleware('auth:admin')->name('admin.delete-user');
 
-// Route to update the sent/not sent for database
-Route::prefix('admin')->group(function () {
-    Route::get('/referrals', [ReferralController::class, 'getReferrals']); // Fetch all referrals
-    Route::post('/referrals/update-status', [ReferralController::class, 'updateStatus']); // Update status
+//admin notification api
+Route::middleware('auth:admin')->group(function () {
+    Route::post('/admin/send-notification', [AdminDashboardController::class, 'sendNotification']);
 });
 
+// Route to send the notification
+Route::post('/admin/send-notification', [AdminDashboardController::class, 'sendNotification'])->name('admin.sendNotification');
 
+//user notification api
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::get('/user/notifications', [DashboardController::class, 'getNotifications']);
+// });
 
+// Route for user dashboard
+// Route::get('/user/dashboard', [DashboardController::class, 'dashboard'])->name('user.dashboard');
+
+// Route::get('/dashboard', [DashboardController::class, 'showNotifications'])->name('dashboard');

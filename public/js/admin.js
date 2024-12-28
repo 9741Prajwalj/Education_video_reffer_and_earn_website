@@ -48,17 +48,6 @@ function fetchAllReferrals(csrfToken) {
                     <td class="py-3 px-4">${referral.referral_name}</td>
                     <td class="py-3 px-4">${referral.referral_phone}</td>
                     <td class="py-3 px-4">${referral.user_id}</td>
-                    <td class="py-3 px-4">
-                        <!-- Sent/Not Sent Buttons -->
-                        <button onclick="updateReferralStatus(${referral.id}, 'sent')" 
-                                class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">
-                            Sent
-                        </button>
-                        <button onclick="updateReferralStatus(${referral.id}, 'not sent')" 
-                                class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
-                            Not Sent
-                        </button>
-                    </td>
                 `;
                 referralTableBody.appendChild(row);
             });
@@ -145,7 +134,6 @@ function showReferralList(userId) {
                     <td class="py-2 px-4">${referral.referral_name}</td>
                     <td class="py-2 px-4">${referral.referral_phone}</td>
                     <td class="py-2 px-4">${referral.user_id}</td>
-                    <td class="py-2 px-4">${referral.status}</td>
                 </tr>`;
             referralTableBody.innerHTML += row;
         });
@@ -266,41 +254,59 @@ function filterTable(searchInputId, tableBodyId) {
     }
 }
 
-//For sent and not sent updates to the database from Referal list
-function updateReferralStatus(referralId, status) {
-    
-     // Make the update request
-    fetch(`/admin/referrals/update-status`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-        body: JSON.stringify({
-            id: referralId,
-            status: status,
-        }),
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to update referral status');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                 // Find and disable the clicked button
-                 const buttons = document.querySelectorAll(`button[onclick*="updateReferralStatus(${referralId}, '${status}')"]`);
-                 buttons.forEach(button => {
-                     button.disabled = true;
-                     button.classList.remove('bg-green-500', 'bg-red-500', 'hover:bg-green-600', 'hover:bg-red-600');
-                     button.classList.add('bg-gray-500', 'cursor-not-allowed');
-                 });
-                alert(`Referral status updated to ${status}`);
-                fetchAllReferrals(); // Refresh the table after updating
-            } else {
-                alert('Failed to update referral status');
-            }
-        })
-        .catch(error => console.error('Error updating referral status:', error));
+ // Show the notification modal
+ function showNotificationModal() {
+    document.getElementById('notificationModal').classList.remove('hidden');
 }
+
+// Close the notification modal
+function closeNotificationModal() {
+    document.getElementById('notificationModal').classList.add('hidden');
+}
+
+
+// JavaScript to handle the opening and closing of the notification modal
+
+// Function to open the modal
+function openNotificationModal() {
+    document.getElementById("notificationModal").classList.remove("hidden");
+    document.getElementById("notificationModal").classList.add("flex");
+}
+
+// Function to close the modal
+function closeNotificationModal() {
+    document.getElementById("notificationModal").classList.add("hidden");
+    document.getElementById("notificationModal").classList.remove("flex");
+}
+
+// Function to load notifications via AJAX
+function loadNotifications() {
+    fetch('/dashboard') // Make a GET request to the dashboard route
+        .then(response => response.json())
+        .then(data => {
+            let notificationsHtml = '';
+            if (data.length > 0) {
+                data.forEach(notification => {
+                    notificationsHtml += `
+                        <div class="mb-4 p-4 border-b border-gray-200">
+                            <h3 class="text-lg font-semibold">${notification.title}</h3>
+                            <p class="text-gray-700">${notification.message}</p>
+                            ${notification.image_url ? `<img src="${notification.image_url}" alt="Notification Image" class="mt-2 rounded">` : ''}
+                        </div>
+                    `;
+                });
+            } else {
+                notificationsHtml = '<p>No notifications available.</p>';
+            }
+            document.getElementById('notificationsContent').innerHTML = notificationsHtml;
+        })
+        .catch(error => {
+            console.error('Error fetching notifications:', error);
+        });
+}
+
+// Add an event listener to open the modal and load notifications
+document.getElementById('openNotificationsBtn').addEventListener('click', () => {
+    loadNotifications(); // Load notifications when modal opens
+    openNotificationModal(); // Open the modal
+});

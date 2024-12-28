@@ -60,21 +60,6 @@ class ReferralController extends Controller
         return redirect()->route('dashboard')->with('success', 'Referral information updated successfully.');
     }
 
-    // for updating the sent/not sent button to database table
-    public function updateStatus(Request $request)
-    {
-        $validated = $request->validate([
-            'id' => 'required|exists:referral_list,id',
-            'status' => 'required|in:sent,not sent',
-        ]);
-
-        $referral = ReferralList::findOrFail($validated['id']);
-        $referral->status = $validated['status'];
-        $referral->save();
-
-        return response()->json(['success' => true, 'message' => 'Status updated successfully']);
-    }
-
     public function getReferrals()
     {
         $referrals = ReferralList::all();
@@ -82,22 +67,22 @@ class ReferralController extends Controller
     }
 
      // Method to show the referral list
-     public function getReferralList()
-     {
-         // Fetch all the referral records from the database
-        $referralList = ReferralList::all();
-        // Get the current authenticated user
-        $userId = auth()->user() ? auth()->user()->id : null; // Fetch the current logged-in user's ID, or null if not authenticated
-        // Check if the user is authenticated
-        if (!$userId) {
-            return response()->json(['error' => 'User not authenticated'], 401);
-        }
-        // Fetch only the referrals for the current user
-        $referralList = DB::table('referral_list')
-                        ->where('user_id', $userId) // Filter referrals by the logged-in user's ID
-                        ->get();
+    //  public function getReferralList()
+    //  {
+    //      // Fetch all the referral records from the database
+    //     $referralList = ReferralList::all();
+    //     // Get the current authenticated user
+    //     $userId = auth()->user() ? auth()->user()->id : null; // Fetch the current logged-in user's ID, or null if not authenticated
+    //     // Check if the user is authenticated
+    //     if (!$userId) {
+    //         return response()->json(['error' => 'User not authenticated'], 401);
+    //     }
+    //     // Fetch only the referrals for the current user
+    //     $referralList = DB::table('referral_list')
+    //                     ->where('user_id', $userId) // Filter referrals by the logged-in user's ID
+    //                     ->get();
 
-        // Return the filtered data as JSON for frontend usage
-        return response()->json($referralList);
-     }
+    //     // Return the filtered data as JSON for frontend usage
+    //     return response()->json($referralList);
+    //  }
 }

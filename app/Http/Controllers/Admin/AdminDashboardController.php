@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\ReferralList;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-
 use function Laravel\Prompts\alert;
 
 class AdminDashboardController extends Controller
@@ -102,12 +102,9 @@ class AdminDashboardController extends Controller
                 'password' => Hash::make($validatedData['password']),
                 'points' => $validatedData['points'],
             ]);
-
             // Commit the transaction
             DB::commit();
-
             // Redirect with success message
-            // return redirect()->back()->with('success', 'User added successfully!');
             return response()->json(['success' => true, 'message' => 'User added successfully']);
 
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -136,5 +133,32 @@ class AdminDashboardController extends Controller
         }
     }
 
+     // Send notification
+     public function sendNotification(Request $request)
+     {
+         $request->validate([
+             'title' => 'required|string|max:255',
+             'message' => 'required|string',
+             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image upload
+             'user_id' => 'nullable|exists:users,id' // Ensure the user exists if provided
+         ]);
+ 
+         // Handle image upload (if any)
+         $imagePath = null;
+         if ($request->hasFile('image')) {
+             $imagePath = $request->file('image')->store('notifications', 'public');
+         }
+ 
+         // Store the notification
+         Notification::create([
+             'title' => $request->title,
+             'message' => $request->message,
+             'image' => $imagePath,
+             'user_id' => $request->user_id, // Optional: specify a user to send the notification to
+             'admin_id' => Auth::id() // Store the admin's ID who sent the notification
+         ]);
+ 
+         return redirect()->back()->with('success', 'Notification sent successfully!');
+     }
 
 }

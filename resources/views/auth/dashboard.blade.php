@@ -22,8 +22,8 @@
         </div>
         <div class="flex items-center space-x-4">
             <!-- Notification Button -->
-            <button id="notificationButton" class="px-3 py-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring focus:ring-yellow-300">
-                <i class="fa-solid fa-bell"></i> <!-- Notification Icon -->
+            <button id="openNotificationsBtn" onclick="openNotificationModal()" id="notificationButton" class="px-3 py-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring focus:ring-yellow-300" onclick="showNotificationModal()">
+                <i class="fa-solid fa-bell"></i> <!--Notification Icon-->
             </button>
             <!-- Change Password Button -->
             <button onclick="openChangePasswordModal()" class="px-3 py-2 bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300">
@@ -57,6 +57,8 @@
             </ul>
         </div>
     @endif
+    
+
     <!-- Change Password Modal -->
     <div id="changePasswordModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -97,7 +99,7 @@
             <!-- Profile Section -->
             <div class="flex flex-col items-center bg-gray-200 p-4 rounded-lg">
             <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-500 bg-gray-100">
-                <img src="{{ asset('image/user_logo.png') }}" alt="Admin Image" class="w-full h-full object-cover">
+                <img src="{{ asset('image/333_logo.png') }}" alt="Admin Image" class="w-full h-full object-cover">
             </div>
                 <h2 class="mt-3 text-xl font-semibold text-gray-700">{{ auth()->user()->username }}</h2>
                 <h2 class="mt-3 text-xl font-semibold text-gray-700">{{ auth()->user()->email }}</h2>
@@ -162,7 +164,6 @@
                                 <tr class="bg-gray-100">
                                     <th class="px-4 py-2 text-left text-gray-700">Referred Name</th>
                                     <th class="px-4 py-2 text-left text-gray-700">Referred Phone</th>
-                                    <th class="px-4 py-2 text-left text-gray-700">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -170,13 +171,6 @@
                                     <tr class="border-b">
                                         <td class="px-4 py-2">{{ $referral->referral_name }}</td>
                                         <td class="px-4 py-2">{{ $referral->referral_phone }}</td>
-                                        <td class="px-4 py-2">
-                                            @if($referral->referral_name || $referral->referral_phone || $referral->status == 'sent')
-                                                <i class="fas fa-check text-green-500"></i> <!-- Tick mark icon -->
-                                            @else
-                                                <i class="fas fa-clock text-yellow-500"></i> <!-- Waiting icon -->
-                                            @endif
-                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -188,7 +182,7 @@
         <!-- Section 4: Advertisements -->
         <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
-                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-32 object-cover">
+                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-52 object-cover">
                 <div class="p-4">
                     <h4 class="text-lg font-semibold text-gray-800">Advertisement 1</h4>
                     <p class="text-sm text-gray-600">This is a sample ad description.</p>
@@ -196,7 +190,7 @@
             </div>
 
             <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
-                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-32 object-cover">
+                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-52 object-cover">
                 <div class="p-4">
                     <h4 class="text-lg font-semibold text-gray-800">Advertisement 2</h4>
                     <p class="text-sm text-gray-600">This is another ad description.</p>
@@ -204,33 +198,13 @@
             </div>
 
             <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
-                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-32 object-cover">
+                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-52 object-cover">
                 <div class="p-4">
                     <h4 class="text-lg font-semibold text-gray-800">Advertisement 3</h4>
                     <p class="text-sm text-gray-600">Yet another ad description.</p>
                 </div>
             </div>
-            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
-                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-32 object-cover">
-                <div class="p-4">
-                    <h4 class="text-lg font-semibold text-gray-800">Advertisement 4</h4>
-                    <p class="text-sm text-gray-600">Yet another ad description.</p>
-                </div>
-            </div>
-            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
-                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-32 object-cover">
-                <div class="p-4">
-                    <h4 class="text-lg font-semibold text-gray-800">Advertisement 5</h4>
-                    <p class="text-sm text-gray-600">Yet another ad description.</p>
-                </div>
-            </div>
-            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
-                <img src="https://via.placeholder.com/300x150" alt="Ad Image" class="w-full h-32 object-cover">
-                <div class="p-4">
-                    <h4 class="text-lg font-semibold text-gray-800">Advertisement 6</h4>
-                    <p class="text-sm text-gray-600">Yet another ad description.</p>
-                </div>
-            </div>
+            
         </section>
     </main>
 </body>
