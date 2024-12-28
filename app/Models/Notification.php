@@ -9,9 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['title', 'message', 'image', 'user_id'];
-
+    protected $fillable = [
+        'title',
+        'message',
+        'image',
+        'user_id',
+    ];
     // Relationship to the User and Admin
     public function user()
     {
@@ -26,6 +29,12 @@ class Notification extends Model
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    // Scope to get notifications for the current user
+    public function scopeForUser($query, $userId)
+    {
+        return $query->where('user_id', $userId);
     }
 
 }

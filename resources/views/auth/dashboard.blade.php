@@ -21,10 +21,27 @@
             </div>
         </div>
         <div class="flex items-center space-x-4">
-            <!-- Notification Button -->
-            <button id="openNotificationsBtn" onclick="openNotificationModal()" id="notificationButton" class="px-3 py-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring focus:ring-yellow-300" onclick="showNotificationModal()">
-                <i class="fa-solid fa-bell"></i> <!--Notification Icon-->
-            </button>
+            <div class="relative inline-block">
+                <!-- Notification Button -->
+                <button id="openNotificationsBtn" 
+                    class="px-3 py-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring focus:ring-yellow-300">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+                <!-- Notification Modal -->
+                <div id="notificationModal" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg z-50">
+                    <!-- Arrow -->
+                    <div class="absolute right-4 top-[-8px] w-4 h-4 bg-white transform rotate-45 shadow-md"></div>
+                    <div class="flex justify-between items-center p-4 border-b">
+                        <h2 class="text-lg  font-semibold">Notifications</h2>
+                        <button id="closeModalBtn" class="text-gray-600 hover:text-gray-800">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="notificationContent" class="p-4 max-h-80 overflow-y-auto">
+                        <p class="text-gray-500">Loading notifications...</p>
+                    </div>
+                </div>
+            </div>
             <!-- Change Password Button -->
             <button onclick="openChangePasswordModal()" class="px-3 py-2 bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300">
                 <i class="fa-solid fa-lock"></i> <!-- Lock Icon for Change Password -->
@@ -58,7 +75,7 @@
         </div>
     @endif
     
-
+    
     <!-- Change Password Modal -->
     <div id="changePasswordModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white p-6 rounded-lg shadow-lg w-96">

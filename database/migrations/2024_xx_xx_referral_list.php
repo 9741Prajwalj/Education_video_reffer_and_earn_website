@@ -12,7 +12,6 @@ return new class extends Migration {
             $table->string('referral_name');
             $table->string('referral_phone');
             $table->bigInteger('user_id')->unsigned(); // Add user_id column as a foreign key
-            // $table->enum('status', ['sent', 'not sent'])->default('not sent');// Add 'sent' column
             $table->timestamps();
             // Add foreign key constraint
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

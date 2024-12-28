@@ -9,6 +9,7 @@ use App\Http\Controllers\User\ForgotPasswordController;
 use App\Http\Controllers\User\ResetPasswordController;
 use App\Http\Controllers\User\ReferralController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\User\UserNotificationController;
 
 //For Admin 🧑‍🏫
 use App\Http\Controllers\Admin\AdminController;
@@ -86,11 +87,20 @@ Route::middleware('auth:admin')->group(function () {
 Route::post('/admin/send-notification', [AdminDashboardController::class, 'sendNotification'])->name('admin.sendNotification');
 
 //user notification api
-// Route::middleware('auth:sanctum')->group(function () {
-//     Route::get('/user/notifications', [DashboardController::class, 'getNotifications']);
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/notifications', [AdminNotificationController::class, 'fetchNotifications'])->name('notifications.fetch');
 // });
 
+// Route::get('/notifications', [AdminNotificationController::class, 'fetchNotifications'])->name('notifications');
+
+
+// Route::middleware('auth:sanctum')->get('/notifications', [AdminNotificationController::class, 'fetchNotifications']);
 // Route for user dashboard
 // Route::get('/user/dashboard', [DashboardController::class, 'dashboard'])->name('user.dashboard');
 
 // Route::get('/dashboard', [DashboardController::class, 'showNotifications'])->name('dashboard');
+
+// Route::middleware('auth:sanctum')->get('/notifications', [AdminNotificationController::class, 'fetchNotifications']);
+
+// Route to fetch notifications
+Route::get('/notifications', [UserNotificationController::class, 'getNotifications'])->name('notifications');

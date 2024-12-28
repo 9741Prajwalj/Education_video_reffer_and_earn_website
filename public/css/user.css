@@ -22,3 +22,15 @@
   white-space: nowrap;
   display: inline-block;
 }
+
+#notificationModal .arrow {
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  position: absolute;
+  top: -8px; /* Adjust to match your modal placement */
+  right: 16px; /* Align arrow to the button */
+  transform: rotate(45deg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional shadow for the arrow */
+}
+
