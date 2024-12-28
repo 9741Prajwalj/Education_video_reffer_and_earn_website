@@ -48,6 +48,9 @@ Route::post('/password/change', [DashboardController::class, 'changePassword'])-
 // Define a route for showing the referral list
 Route::get('/referrals', [ReferralController::class, 'getReferralList'])->name('referral.list');
 
+// Route to fetch notifications
+Route::get('/notifications/fetch', [UserNotificationController::class, 'fetchNotifications']);
+Route::post('/notifications/mark-seen', [UserNotificationController::class, 'markAsSeen']);
 
 //For Admin 🧑‍🏫
 
@@ -85,22 +88,3 @@ Route::middleware('auth:admin')->group(function () {
 
 // Route to send the notification
 Route::post('/admin/send-notification', [AdminDashboardController::class, 'sendNotification'])->name('admin.sendNotification');
-
-//user notification api
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/notifications', [AdminNotificationController::class, 'fetchNotifications'])->name('notifications.fetch');
-// });
-
-// Route::get('/notifications', [AdminNotificationController::class, 'fetchNotifications'])->name('notifications');
-
-
-// Route::middleware('auth:sanctum')->get('/notifications', [AdminNotificationController::class, 'fetchNotifications']);
-// Route for user dashboard
-// Route::get('/user/dashboard', [DashboardController::class, 'dashboard'])->name('user.dashboard');
-
-// Route::get('/dashboard', [DashboardController::class, 'showNotifications'])->name('dashboard');
-
-// Route::middleware('auth:sanctum')->get('/notifications', [AdminNotificationController::class, 'fetchNotifications']);
-
-// Route to fetch notifications
-Route::get('/notifications', [UserNotificationController::class, 'getNotifications'])->name('notifications');

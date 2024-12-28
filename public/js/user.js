@@ -45,39 +45,75 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-document.addEventListener("DOMContentLoaded", function () {
-  const openNotificationsBtn = document.getElementById("openNotificationsBtn");
-  const notificationModal = document.getElementById("notificationModal");
-  const closeModalBtn = document.getElementById("closeModalBtn");
-  const notificationContent = document.getElementById("notificationContent");
+document.addEventListener('DOMContentLoaded', () => {
+  const openNotificationsBtn = document.getElementById('openNotificationsBtn');
+  const notificationModal = document.getElementById('notificationModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const notificationCounter = document.getElementById('notificationCounter');
+  const notificationContent = document.getElementById('notificationContent');
 
-  // Open modal and fetch notifications
-  openNotificationsBtn.addEventListener("click", async () => {
-      notificationModal.classList.remove("hidden");
+  let unseenCount = 0; // Counter for unseen notifications
 
+  // Fetch notifications and update counter
+  async function fetchNotifications() {
       try {
-          const response = await fetch("/notifications");
-          const notifications = await response.json();
+          const response = await fetch('/notifications/fetch');
+          const data = await response.json();
 
-          if (notifications.length > 0) {
-              notificationContent.innerHTML = notifications
-                  .map(notification => `
-                      <div class="p-3 border-b last:border-0">
-                          <h3 class="text-md font-semibold">${notification.title}</h3>
-                          <p class="text-sm text-gray-600">${notification.message}</p>
-                      </div>
-                  `).join("");
+          // Update notification content
+          if (data.notifications.length > 0) {
+              notificationContent.innerHTML = data.notifications
+                  .map(
+                      (notification) => `
+                      <div class="mb-4 p-3 bg-gray-100 rounded shadow">
+                          <h3 class="font-bold">${notification.title}</h3>
+                          <p>${notification.message}</p>
+                      </div>`
+                  )
+                  .join('');
+              unseenCount = data.unseen_count; // Update unseen notifications
+              updateNotificationCounter();
           } else {
-              notificationContent.innerHTML = `<p class="text-gray-500">No notifications available.</p>`;
+              notificationContent.innerHTML = '<p class="text-gray-500">No notifications found.</p>';
+              unseenCount = 0;
+              updateNotificationCounter();
           }
       } catch (error) {
-          console.error("Error fetching notifications:", error);
-          notificationContent.innerHTML = `<p class="text-red-500">Failed to load notifications.</p>`;
+          console.error('Error fetching notifications:', error);
+      }
+  }
+
+  // Update the notification counter
+  function updateNotificationCounter() {
+      if (unseenCount > 0) {
+          notificationCounter.textContent = unseenCount;
+          notificationCounter.classList.remove('hidden');
+      } else {
+          notificationCounter.classList.add('hidden');
+      }
+  }
+
+  // Open the modal and mark notifications as seen
+  openNotificationsBtn.addEventListener('click', async () => {
+      notificationModal.classList.toggle('hidden');
+
+      if (!notificationModal.classList.contains('hidden')) {
+          unseenCount = 0; // Reset unseen notifications
+          updateNotificationCounter();
+
+          // Mark notifications as seen in the backend
+          await fetch('/notifications/mark-seen', { method: 'POST' });
       }
   });
 
-  // Close modal
-  closeModalBtn.addEventListener("click", () => {
-      notificationModal.classList.add("hidden");
+  // Close the modal
+  closeModalBtn.addEventListener('click', () => {
+      notificationModal.classList.add('hidden');
   });
+
+  // Initial fetch for notifications
+  fetchNotifications();
+
+  // Periodically check for new notifications
+  setInterval(fetchNotifications, 30000); // Check every 30 seconds
 });

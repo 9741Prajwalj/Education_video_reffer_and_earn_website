@@ -24,21 +24,26 @@
             <div class="relative inline-block">
                 <!-- Notification Button -->
                 <button id="openNotificationsBtn" 
-                    class="px-3 py-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring focus:ring-yellow-300">
+                    class="px-3 py-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring focus:ring-yellow-300 relative">
                     <i class="fa-solid fa-bell"></i>
+                    <!-- Notification Counter -->
+                    <span id="notificationCounter" 
+                        class="hidden absolute top-[-5px] right-[-5px] bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                        0
+                    </span>
                 </button>
                 <!-- Notification Modal -->
-                <div id="notificationModal" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg z-50">
+                <div id="notificationModal" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg z-50 text-gray-800">
                     <!-- Arrow -->
                     <div class="absolute right-4 top-[-8px] w-4 h-4 bg-white transform rotate-45 shadow-md"></div>
                     <div class="flex justify-between items-center p-4 border-b">
-                        <h2 class="text-lg  font-semibold">Notifications</h2>
+                        <h2 class="text-lg font-semibold text-gray-900">Notifications</h2>
                         <button id="closeModalBtn" class="text-gray-600 hover:text-gray-800">
                             <i class="fa-solid fa-times"></i>
                         </button>
                     </div>
                     <div id="notificationContent" class="p-4 max-h-80 overflow-y-auto">
-                        <p class="text-gray-500">Loading notifications...</p>
+                        <p class="text-gray-700">Loading notifications...</p>
                     </div>
                 </div>
             </div>
