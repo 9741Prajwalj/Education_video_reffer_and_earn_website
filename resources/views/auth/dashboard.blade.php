@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>User Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ asset('js/user.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('css/user.css') }}"></head>
 <body class="bg-gray-100">
@@ -79,8 +81,6 @@
             </ul>
         </div>
     @endif
-    
-    
     <!-- Change Password Modal -->
     <div id="changePasswordModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
         <div class="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -174,33 +174,59 @@
             </section>
         </div>
         <!-- Section 3: Referred List -->
-        <div class="flex items-center justify-center mt-2 bg-gray-100">
-            <section class="bg-white p-6 border border-gray-200 rounded-lg shadow-lg w-full max-w-lg">
-                <h3 class="text-xl font-semibold text-gray-700 mb-4 text-center">Referred List</h3>
-                @if($referralList->isEmpty())
-                    <p class="text-gray-500 text-center">No referrals yet.</p>
-                @else
-                    <div id="referral-list-container" class="overflow-y-auto max-h-48"> <!-- Set max height and enable scrolling -->
-                        <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
-                            <thead>
-                                <tr class="bg-gray-100">
-                                    <th class="px-4 py-2 text-left text-gray-700">Referred Name</th>
-                                    <th class="px-4 py-2 text-left text-gray-700">Referred Phone</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($referralList as $referral)
-                                    <tr class="border-b">
-                                        <td class="px-4 py-2">{{ $referral->referral_name }}</td>
-                                        <td class="px-4 py-2">{{ $referral->referral_phone }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+<div class="flex items-center justify-center mt-2 bg-gray-100">
+    <section class="bg-white p-6 border border-gray-200 rounded-lg shadow-lg w-full max-w-4xl">
+        <div class="flex justify-between items-center mb-4">
+            <!-- Left side: Display total coupon received -->
+            <h5 class="text-lg font-medium text-gray-600">
+                Total Coupon Received:
+                <span class="text-blue-500 font-bold" id="totalReferral">{{ $referral_received ?? 0 }}</span>
+            </h5>
+
+            <!-- Centered title: Referred List -->
+            <h3 class="text-xl font-semibold text-gray-700 mb-1 text-center">
+                Referred List
+            </h3>
+
+            <!-- Right side: Referral input and send button -->
+            <div class="flex items-center">
+                <form id="referralForm" method="POST" action="{{ route('store.referral') }}">
+                    @csrf
+                    <div class="flex items-center space-x-2">
+                        <input type="number" name="referral_received" id="referralNumber" class="px-3 py-2 w-32 border border-gray-300 rounded-lg" placeholder="Coupon Received" required>
+                        <button type="submit" id="sendReferral" class="px-4 py-2 bg-blue-500 text-white rounded-lg">Send</button>
                     </div>
-                @endif
-            </section>
+                </form>
+            </div>
         </div>
+
+        <!-- Referral List Table -->
+        @if($referralList->isEmpty())
+            <p class="text-gray-500 text-center">No referrals yet.</p>
+        @else
+            <div id="referral-list-container" class="overflow-y-auto max-h-48"> <!-- Set max height and enable scrolling -->
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="px-6 py-3 text-left text-gray-700">Referred Name</th>
+                            <th class="px-6 py-3 text-left text-gray-700">Referred Phone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($referralList as $referral)
+                            <tr class="border-b">
+                                <td class="px-6 py-3">{{ $referral->referral_name }}</td>
+                                <td class="px-6 py-3">{{ $referral->referral_phone }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+    </section>
+</div>
+
+
         <!-- Section 4: Advertisements -->
         <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div class="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">

@@ -52,6 +52,10 @@ Route::get('/referrals', [ReferralController::class, 'getReferralList'])->name('
 Route::get('/notifications/fetch', [UserNotificationController::class, 'fetchNotifications']);
 Route::post('/notifications/mark-seen', [UserNotificationController::class, 'markAsSeen']);
 
+Route::get('/referral-received', [DashboardController::class, 'getReferralReceived'])->name('get.referral');
+Route::post('/store-referral', [DashboardController::class, 'storeReferral'])->name('store.referral');
+
+
 //For Admin 🧑‍🏫
 
 // Admin Registration

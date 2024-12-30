@@ -291,7 +291,6 @@ function loadNotifications() {
                         <div class="mb-4 p-4 border-b border-gray-200">
                             <h3 class="text-lg font-semibold">${notification.title}</h3>
                             <p class="text-gray-700">${notification.message}</p>
-                            ${notification.image_url ? `<img src="${notification.image_url}" alt="Notification Image" class="mt-2 rounded">` : ''}
                         </div>
                     `;
                 });

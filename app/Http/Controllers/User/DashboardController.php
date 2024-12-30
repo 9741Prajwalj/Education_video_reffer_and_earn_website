@@ -97,27 +97,35 @@ class DashboardController extends Controller
         }
     }
 
-     // Get notifications for the logged-in user
-      // Get notifications for the logged-in user
-    // public function getNotifications()
-    // {
-    //     $notifications = Auth::user()->notifications; // Retrieve notifications for the logged-in user
-    //     return response()->json($notifications, 200);
-    // }
-    // public function showNotifications()
-    // {
-    //     if (Auth::check()) {
-    //         $user = Auth::user(); // Get the authenticated user
-    //         $notifications = $user->notifications; // Fetch notifications
+    public function getReferralReceived()
+    {
+        $user = Auth::user();
 
-    //         // Check if the notifications are fetched
-    //         dd($notifications);
+        if (!$user) {
+            return response()->json(['message' => 'User not authenticated'], 401);
+        }
 
-    //         // Return notifications as JSON or to view
-    //         return view('auth.dashboard', compact('notifications'));
-    //     } else {
-    //         return redirect()->route('login'); // Redirect to login page if user is not authenticated
-    //     }
-    // }
-     
+        // Return referral_received as JSON
+        return response()->json(['referral_received' => $user->referral_received]);
+    }
+
+    public function storeReferral(Request $request)
+    {
+        $request->validate([
+            'referral_received' => 'required|integer|min:0',
+        ]);
+
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not authenticated'], 401);
+        }
+
+        // Increment referral_received count
+        $user->referral_received += $request->referral_received;
+        $user->save();
+
+        return response()->json(['message' => 'Referral Received updated successfully', 'referral_received' => $user->referral_received]);
+    }
+
 }

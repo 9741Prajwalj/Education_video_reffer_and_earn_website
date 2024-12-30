@@ -12,7 +12,7 @@ class ReferralList extends Model
     protected $table = 'referral_list';
 
     // Define the fields that are mass assignable
-    protected $fillable = ['referral_name', 'referral_phone', 'user_id','state'];
+    protected $fillable = ['referral_name', 'referral_phone', 'user_id',];
 
     // Define the relationship with the User model
     public function user()

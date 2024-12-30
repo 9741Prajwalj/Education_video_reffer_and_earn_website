@@ -21,7 +21,7 @@ class UserNotificationController extends Controller
     public function fetchNotifications()
     {
         $userId = Auth::id();
-        $notifications = Notification::where('user_id', $userId)->latest()->get();
+        $notifications = Notification::where('user_id', $userId)->latest()->get(['title', 'message', 'seen_at']);
         $unseenCount = Notification::where('user_id', $userId)->whereNull('seen_at')->count();
 
         return response()->json([

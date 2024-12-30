@@ -12,8 +12,8 @@ class Notification extends Model
     protected $fillable = [
         'title',
         'message',
-        'image',
         'user_id',
+        'seen_at',
     ];
     // Relationship to the User and Admin
     public function user()

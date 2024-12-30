@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 // use App\Models\User;
+use App\Models\Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class ReferralController extends Controller
 {
@@ -66,23 +68,5 @@ class ReferralController extends Controller
         return response()->json($referrals);
     }
 
-     // Method to show the referral list
-    //  public function getReferralList()
-    //  {
-    //      // Fetch all the referral records from the database
-    //     $referralList = ReferralList::all();
-    //     // Get the current authenticated user
-    //     $userId = auth()->user() ? auth()->user()->id : null; // Fetch the current logged-in user's ID, or null if not authenticated
-    //     // Check if the user is authenticated
-    //     if (!$userId) {
-    //         return response()->json(['error' => 'User not authenticated'], 401);
-    //     }
-    //     // Fetch only the referrals for the current user
-    //     $referralList = DB::table('referral_list')
-    //                     ->where('user_id', $userId) // Filter referrals by the logged-in user's ID
-    //                     ->get();
-
-    //     // Return the filtered data as JSON for frontend usage
-    //     return response()->json($referralList);
-    //  }
+    
 }

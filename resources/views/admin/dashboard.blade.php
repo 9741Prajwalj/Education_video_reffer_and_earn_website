@@ -172,7 +172,12 @@
         </div>
         <!-- Notification Modal -->
         <div id="notificationModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 hidden">
-            <div class="bg-white rounded-lg p-6 w-96">
+            <div class="bg-white rounded-lg p-6 w-96 relative mt-6">
+                <!-- Close Button -->
+                <button onclick="closeNotificationModal()" class="absolute -top-6 right-0 text-gray-600 hover:text-gray-800 text-2xl p-2 bg-white rounded-full shadow-lg">
+                    <i class="fas fa-times"></i>
+                </button>
+
                 <h2 class="text-xl font-bold mb-4">Send Notification</h2>
 
                 <form id="notificationForm" method="POST" action="{{ route('admin.sendNotification') }}" enctype="multipart/form-data">
@@ -187,12 +192,6 @@
                     <div class="mb-4">
                         <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
                         <textarea name="message" id="message" class="w-full px-3 py-2 border border-gray-300 rounded-md" rows="4" required></textarea>
-                    </div>
-
-                    <!-- Notification Image (Optional) -->
-                    <div class="mb-4">
-                        <label for="image" class="block text-sm font-medium text-gray-700">Notification Image (Optional)</label>
-                        <input type="file" name="image" id="image" class="w-full px-3 py-2 border border-gray-300 rounded-md">
                     </div>
 
                     <!-- User Selector (Optional, default to all users) -->
@@ -211,10 +210,6 @@
                         <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Send Notification</button>
                     </div>
                 </form>
-
-                <button onclick="closeNotificationModal()" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
         </div>
 

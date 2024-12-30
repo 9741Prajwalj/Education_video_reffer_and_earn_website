@@ -117,3 +117,45 @@ document.addEventListener('DOMContentLoaded', () => {
   // Periodically check for new notifications
   setInterval(fetchNotifications, 30000); // Check every 30 seconds
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const totalReferralElement = document.getElementById("totalReferral");
+
+    // Fetch referral_received value on page load
+    axios
+        .get('/referral-received')
+        .then((response) => {
+            totalReferralElement.textContent = response.data.referral_received;
+        })
+        .catch((error) => {
+            console.error(error.response.data);
+            alert("Failed to load referral data.");
+        });
+
+    // Handle form submission
+    const referralForm = document.getElementById("referralForm");
+    referralForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const referralNumber = document.getElementById("referralNumber").value;
+        const csrfToken = document.querySelector('input[name="_token"]').value;
+
+        axios
+            .post('/store-referral', {
+                referral_received: referralNumber,
+            }, {
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+            })
+            .then((response) => {
+                alert("Referral updated successfully!");
+                totalReferralElement.textContent = response.data.referral_received;
+            })
+            .catch((error) => {
+                console.error(error.response.data);
+                alert("An error occurred: " + error.response.data.message);
+            });
+    });
+});
