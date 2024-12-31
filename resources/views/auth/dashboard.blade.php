@@ -90,12 +90,12 @@
                 <!-- Current Password -->
                 <div class="mb-4">
                     <label for="currentPassword" class="block text-gray-700">Current Password</label>
-                    <input type="password" id="currentPassword" name="currentPassword" placeholder="using password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
+                    <input type="password" id="currentPassword" name="currentPassword" placeholder="password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
                 </div>
                 <!-- New Password -->
                 <div class="mb-4">
                     <label for="newPassword" class="block text-gray-700">New Password</label>
-                    <input type="password" id="newPassword" name="newPassword" placeholder="new password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
+                    <input type="password" id="newPassword" name="newPassword" placeholder="min 6 character" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300">
                 </div>
                 <!-- Show Password Checkbox -->
                 <div class="flex items-center mb-4">
@@ -185,7 +185,7 @@
 
             <!-- Centered title: Referred List -->
             <h3 class="text-xl font-semibold text-gray-700 mb-1 text-center">
-                Referred List
+                <u>Referred-List</u>
             </h3>
 
             <!-- Right side: Referral input and send button -->

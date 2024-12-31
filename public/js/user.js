@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchNotifications();
 
   // Periodically check for new notifications
-  setInterval(fetchNotifications, 30000); // Check every 30 seconds
+  setInterval(fetchNotifications, 100000); // Check every 30 seconds
 });
 
 
