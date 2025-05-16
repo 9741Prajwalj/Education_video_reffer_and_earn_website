@@ -28,11 +28,20 @@ return new class extends Migration {
             // Foreign Key constraint for user_id referencing the users table
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+
+        Schema::create('otps', function (Blueprint $table) {
+            $table->id();
+            $table->string('email');
+            $table->string('otp');
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('expires_at')->nullable();
+        });
     }
 
     public function down()
     {
         Schema::dropIfExists('referral_list');
         Schema::dropIfExists('notifications');
+        Schema::dropIfExists('otps');
     }
 };

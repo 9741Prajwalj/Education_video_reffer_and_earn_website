@@ -127,5 +127,4 @@ class DashboardController extends Controller
 
         return response()->json(['message' => 'Referral Received updated successfully', 'referral_received' => $user->referral_received]);
     }
-
 }
