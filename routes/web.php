@@ -110,22 +110,25 @@ Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin
 Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
 // Admin Dashboard
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->middleware('auth')->name('admin.dashboard');
+Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->middleware('auth:admin')->name('admin.dashboard');
 
 // Route for viewing the referrals of a specific user
-Route::get('/admin/referrals', [AdminDashboardController::class, 'getAllReferrals'])->middleware('auth')->name('admin.referrals');
+Route::get('/admin/referrals', [AdminDashboardController::class, 'getAllReferrals'])->middleware('auth:admin')->name('admin.referrals');
 
 // Define the route for updating points
 Route::post('/admin/dashboard/update-points/{userId}', [AdminDashboardController::class, 'updatePoints'])->middleware('auth:admin')->name('admin.dashboard.updatePoints');
 
 // Route for viewing the referrals of a specific user
-Route::get('/admin/referrals/{userId}', [AdminDashboardController::class, 'showReferrals'])->middleware('auth:admin')->name('admin.referrals');
+Route::get('/admin/referrals/{userId}', [AdminDashboardController::class, 'showReferrals'])->middleware('auth:admin')->name('admin.referrals.user');
 
 // Route for Adding the User in Admin Dashboard
 Route::post('/admin/dashboard/add-user', [AdminDashboardController::class, 'addUser'])->middleware('auth:admin')->name('admin.add-user');
 
 // Route to delete a user
 Route::delete('/admin/dashboard/delete-user/{id}', [AdminDashboardController::class, 'deleteUser'])->middleware('auth:admin')->name('admin.delete-user');
+
+// Route to send the notification
+Route::post('/admin/send-notification', [AdminDashboardController::class, 'sendNotification'])->middleware('auth:admin')->name('admin.sendNotification');
 
 //admin notification api
 Route::middleware('auth:admin')->group(function () {
