@@ -15,10 +15,10 @@ class LoginController extends Controller
     }
 
     // Handle the login request
-    public function login(Request $request)
+    public function login(Request)
     {
         // Validate the form data
-        $request->validate([
+        Request->validate([
             'email' => 'required|email|exists:users,email',
             'password' => 'required|string|min:6',
         ]);
